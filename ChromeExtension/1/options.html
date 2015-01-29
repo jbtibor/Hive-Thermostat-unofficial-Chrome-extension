@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Hive (unofficial) Options</title>
+    <style>
+        .options {
+            margin-left: auto;
+            margin-right: auto;
+            width: 480px;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="options" class="options">
+        <fieldset id="hiveAuthentication">
+            <legend>Hive authentication</legend>
+            <div id="loginStatus" class="error"></div>
+            <div>
+                <label for="username">Hive username</label>
+                <input type="text" id="username">
+            </div>
+            <div>
+                <label for="password">Hive password</label>
+                <input type="password" id="password">
+            </div>
+            <button id="saveLogin">Save</button>
+        </fieldset>
+        <fieldset id="generalOptions">
+            <legend>General options</legend>
+            <div>
+                <label for="refreshInterval">Refresh interval</label>
+                <select id="refreshInterval">
+                    <option value="5">5 minutes</option>
+                    <option value="10">10 minutes</option>
+                    <option value="15" selected>15 minutes</option>
+                    <option value="30">30 minutes</option>
+                    <option value="60">60 minutes</option>
+                </select>
+            </div>
+            <button id="saveOptions">Save</button>
+            <button id="restore">Restore</button>
+        </fieldset>
+        <div id="status"></div>
+        <script src="content/options.js"></script>
+    </div>
+</body>
+</html>

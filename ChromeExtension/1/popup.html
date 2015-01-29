@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+    <title>My Hive</title>
+    <style>
+        body {
+            min-width: 200px;
+            overflow-x: hidden;
+        }
+
+        img {
+            margin: 5px;
+            border: 2px solid black;
+            vertical-align: middle;
+            width: 75px;
+            height: 75px;
+        }
+
+        .plusMinus {
+            background-color: orange;
+            border: 1px solid red;
+            border-color: red;
+            border-radius: 13px;
+            color: black;
+            cursor: default;
+            display: inline-block;
+            font-size: large;
+            font-weight: bold;
+            height: 20px;
+            margin: 5px;
+            padding: 2px;
+            text-align: center;
+            vertical-align: middle;
+            width: 20px;
+        }
+
+        .updown {
+            vertical-align: middle;
+            width: 50px;
+        }
+    </style>
+    <script src="content/popup.js"></script>
+</head>
+<body>
+    <fieldset id="target">
+        <legend>Target temperature</legend>
+        <div id="targetTemperatureMinus" class="plusMinus">-</div><input type="number" id="targetTemperature" min="0" max="30" step="0.5" class="updown" /><div id="targetTemperaturePlus" class="plusMinus">+</div>
+        <input id="refresh" type="button" value="Refresh" /><label id="status"></label>
+    </fieldset>
+</body>
+</html>

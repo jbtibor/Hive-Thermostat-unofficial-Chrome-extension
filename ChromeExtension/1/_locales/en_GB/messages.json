@@ -1,0 +1,14 @@
+﻿{
+    "apiConnection_Exception": {
+        "message": "Exception while downloading data."
+    },
+    "apiConnection_No_Data": {
+        "message": "No data returned by server."
+    },
+    "appName": {
+        "message": "Hive thermostat (unofficial)"
+    },
+    "appDescription": {
+        "message": "Connect to your Hive thermostat"
+    }
+}
