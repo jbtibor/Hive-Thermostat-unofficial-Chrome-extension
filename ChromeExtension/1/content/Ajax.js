@@ -43,8 +43,9 @@ Ajax.getData = function (url, credential, requestTimeoutSeconds) {
                 }
             };
 
-            xhr.onerror = function (error) {
-                handleError(error);
+            xhr.onerror = function (xhrError) {
+                var errorMessage = "Ready state: " + xhrError.target.readyState + ". Status: " + xhrError.target.status + ". Status text: '" + xhrError.target.statusText + "'.";;
+                handleError(new Error(errorMessage));
             };
 
             var async = true;
@@ -62,7 +63,7 @@ Ajax.getData = function (url, credential, requestTimeoutSeconds) {
 
             xhr.send();
         } catch (e) {
-            console.error(chrome.i18n.getMessage("apiConnection_Exception", e));
+            console.error(chrome.i18n.getMessage("Ajax_getData_Exception", e), e);
             handleError(e);
         }
     });

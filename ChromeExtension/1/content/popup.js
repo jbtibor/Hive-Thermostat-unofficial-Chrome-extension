@@ -1,10 +1,25 @@
 // Copyright (c) 2015 Tibor Jakab-Barthi. All rights reserved.
 
 function getMyHive() {
-    var backgroundPage = chrome.extension.getBackgroundPage();
-    var myHive = backgroundPage.myHive;
+    var getMyHivePromise = new Promise(function (resolve, reject) {
+        try {
+            function getBackgroundPageCallback(backgroundPage) {
+                if (backgroundPage) {
+                    var myHive = backgroundPage.myHive;
 
-    return myHive;
+                    resolve(myHive);
+                } else {
+                    reject(new Error('Call to get background page returned null.'));
+                }
+            };
+
+            chrome.runtime.getBackgroundPage(getBackgroundPageCallback);
+        } catch (error) {
+            reject(error);
+        }
+    });
+
+    return getMyHivePromise;
 }
 
 function getSelectedTargetTemperature() {
@@ -12,40 +27,44 @@ function getSelectedTargetTemperature() {
 }
 
 function restoreOptions() {
-    var myHive = getMyHive();
-
     document.getElementById('targetTemperature').value = '';
     document.getElementById('refresh').addEventListener('click', restoreOptions);
     document.getElementById('status').innerText = 'Refreshing...';
 
-    var update = function (status) {
-        document.getElementById('targetTemperature').value = status.Temperature.Target;
-        document.getElementById('targetTemperature').addEventListener("input", targetTemperatureChanged)
-        document.getElementById('targetTemperatureMinus').addEventListener('click', targetTemperatureMinus);
-        document.getElementById('targetTemperaturePlus').addEventListener('click', targetTemperaturePlus);
-        document.getElementById('status').innerText = '';
-    };
+    getMyHive().then(function (myHive) {
+        var update = function (status) {
+            document.getElementById('targetTemperature').value = status.Temperature.Target;
+            document.getElementById('targetTemperature').addEventListener("input", targetTemperatureChanged)
+            document.getElementById('targetTemperatureMinus').addEventListener('click', targetTemperatureMinus);
+            document.getElementById('targetTemperaturePlus').addEventListener('click', targetTemperaturePlus);
+            document.getElementById('status').innerText = '';
+        };
 
-    var error = function (error) {
-        document.getElementById('targetTemperature').value = "";
-        document.getElementById('status').innerText = 'Error.';
-    };
+        var error = function (error) {
+            document.getElementById('targetTemperature').value = "";
+            document.getElementById('status').innerText = 'Error.';
+        };
 
-    myHive.getStatus().then(update, error);
+        myHive.getStatus().then(update, error);
+    }).catch(function (error) {
+        console.error("Failed to get target temperature.", error);
+
+        document.getElementById('status').innerText = error.message;
+    });
 }
 
 function setTargetTemperature(targetTemperature) {
-    var myHive = getMyHive();
+    getMyHive().then(function (myHive) {
+        document.getElementById('targetTemperature').value = targetTemperature.toFixed(1);
 
-    myHive.queueTargetTemperature(targetTemperature);
-
-    document.getElementById('targetTemperature').value = targetTemperature.toFixed(1);
+        myHive.queueTargetTemperature(targetTemperature);
+    });
 }
 
 function targetTemperatureChanged(e) {
     var targetTemperature = new Number(e.target.value);
 
-    e.target.value = targetTemperature.toFixed(1);
+    setTargetTemperature(targetTemperature);
 }
 
 function targetTemperatureMinus() {

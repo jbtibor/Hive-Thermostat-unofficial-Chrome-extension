@@ -3,7 +3,7 @@
 
     "name": "__MSG_appName__",
     "description": "__MSG_appDescription__",
-    "version": "0.1.10",
+    "version": "0.1.13",
     "author": "Tibor Jakab-Barthi",
     "default_locale": "en_GB",
     "icons": {

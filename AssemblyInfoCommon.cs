@@ -6,7 +6,7 @@
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Tibor Jakab-Barthi")]
 [assembly: AssemblyProduct("Unofficial Hive API")]
-[assembly: AssemblyCopyright("Copyright © 2014 Tibor Jakab-Barthi")]
+[assembly: AssemblyCopyright("Copyright © 2015 Tibor Jakab-Barthi")]
 [assembly: AssemblyTrademark("jbt")]
 
 // Version information for an assembly consists of the following four values:

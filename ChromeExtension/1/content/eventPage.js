@@ -42,6 +42,8 @@ var myHive = {
     },
 
     getStatus: function () {
+        Log.debug("myHive.getStatus.");
+
         return myHive.getData("Status/Get");
     },
 
@@ -148,7 +150,7 @@ var myHive = {
             myHive.displayStatus(statusReport);
         };
 
-        var onError = function () {
+        var onError = function (error) {
             stopLoadingAnimation();
 
             myHive.resetIcon();

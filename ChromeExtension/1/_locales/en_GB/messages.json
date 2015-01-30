@@ -1,5 +1,5 @@
 ﻿{
-    "apiConnection_Exception": {
+    "Ajax_getData_Exception": {
         "message": "Exception while downloading data."
     },
     "apiConnection_No_Data": {
