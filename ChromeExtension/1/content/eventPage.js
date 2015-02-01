@@ -36,15 +36,15 @@ var myHive = {
         var credential = myHive.settings.getCredential();
         var requestTimeoutSeconds = myHive.settings.getRequestTimeoutSeconds();
 
-        Log.debug("myHive.getData.Ajax.getData: ", { url: url, requestTimeoutSeconds: requestTimeoutSeconds, user: credential.username });
+        Log.debug("myHive.getData.Ajax.json: ", { url: url, requestTimeoutSeconds: requestTimeoutSeconds, user: credential.username });
 
-        return Ajax.getData(url, credential, requestTimeoutSeconds);
+        return Ajax.json("GET", url, credential, requestTimeoutSeconds);
     },
 
     getStatus: function () {
         Log.debug("myHive.getStatus.");
 
-        return myHive.getData("Status/Get");
+        return myHive.getData("Status");
     },
 
     openOptionsPage: function () {
@@ -59,6 +59,18 @@ var myHive = {
                 chrome.tabs.create({ url: optionsUrl });
             }
         });
+    },
+
+    putData: function (path, data) {
+        Log.debug("myHive.putData: ", path);
+
+        var url = myHive.settings.getApiEndpoint() + path;
+        var credential = myHive.settings.getCredential();
+        var requestTimeoutSeconds = myHive.settings.getRequestTimeoutSeconds();
+
+        Log.debug("myHive.putData.Ajax.json: ", { url: url, requestTimeoutSeconds: requestTimeoutSeconds, user: credential.username });
+
+        return Ajax.json("PUT", url, credential, requestTimeoutSeconds, data);
     },
 
     queueTargetTemperature: function (targetTemperature) {
@@ -100,7 +112,11 @@ var myHive = {
     setTargetTemperature: function (targetTemperature) {
         Log.debug("myHive.setTargetTemperature: ", targetTemperature);
 
-        myHive.getData("Temperature/Target?value=" + targetTemperature).then(myHive.refresh());
+        var data = {
+            Target: targetTemperature,
+        };
+
+        myHive.putData("Temperature", data).then(myHive.refresh());
     },
 
     startup: function () {

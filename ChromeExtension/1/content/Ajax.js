@@ -2,7 +2,7 @@
 
 var Ajax = {};
 
-Ajax.getData = function (url, credential, requestTimeoutSeconds) {
+Ajax.json = function (method, url, credential, requestTimeoutSeconds, data) {
     var promise = new Promise(function (resolve, reject) {
         var xhr = new XMLHttpRequest();
 
@@ -59,9 +59,15 @@ Ajax.getData = function (url, credential, requestTimeoutSeconds) {
                 username = undefined;
                 password = undefined;
             }
-            xhr.open("GET", url, async, username, password);
+            xhr.open(method, url, async, username, password);
 
-            xhr.send();
+            if (typeof data === 'undefined') {
+                xhr.send();
+            } else {
+                xhr.setRequestHeader('Content-Type', "application/json;charset=UTF-8");
+                var json = JSON.stringify(data);
+                xhr.send(json);
+            }
         } catch (e) {
             console.error(chrome.i18n.getMessage("Ajax_getData_Exception", e), e);
             handleError(e);
